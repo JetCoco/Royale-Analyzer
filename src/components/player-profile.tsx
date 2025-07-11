@@ -5,34 +5,19 @@ import { motion } from 'framer-motion';
 import { Trophy, Star, Users, Crown, Heart, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { PlayerTabs } from './player-tabs';
-import { mockPlayerData } from '@/lib/mock-data';
+import type { ClashPlayer } from '@/types/clash';
 
 interface PlayerProfileProps {
   tag: string;
+  player: ClashPlayer;
 }
 
-export function PlayerProfile({ tag }: PlayerProfileProps) {
-  const [player, setPlayer] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export default function PlayerProfile({ tag, player }: PlayerProfileProps) {
   const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
-    const fetchPlayer = async () => {
-      try {
-        setLoading(true);
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        setPlayer(mockPlayerData);
-        const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-        setIsFavorite(favorites.some((fav: any) => fav.tag === tag));
-      } catch (err) {
-        setError('Error al cargar el perfil del jugador');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPlayer();
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    setIsFavorite(favorites.some((fav: any) => fav.tag === tag));
   }, [tag]);
 
   const toggleFavorite = () => {
@@ -46,7 +31,7 @@ export function PlayerProfile({ tag }: PlayerProfileProps) {
         tag,
         name: player?.name || 'Jugador',
         trophies: player?.trophies || 0,
-        level: player?.level || 1,
+        level: player?.expLevel || 1,
         addedAt: new Date().toISOString(),
       };
       favorites.push(newFavorite);
@@ -54,38 +39,6 @@ export function PlayerProfile({ tag }: PlayerProfileProps) {
       setIsFavorite(true);
     }
   };
-
-  if (loading) {
-    return (
-      <div className="space-y-6">
-        <div className="flex items-center gap-4 mb-8">
-          <div className="w-8 h-8 bg-secondary rounded animate-pulse" />
-          <div className="w-32 h-8 bg-secondary rounded animate-pulse" />
-        </div>
-        <div className="royal-card glass-effect animate-gradient border border-white/10">
-          <div className="flex items-center gap-6 mb-6">
-            <div className="w-20 h-20 bg-secondary rounded-full animate-pulse" />
-            <div className="space-y-2">
-              <div className="w-48 h-8 bg-secondary rounded animate-pulse" />
-              <div className="w-32 h-6 bg-secondary rounded animate-pulse" />
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="text-center py-16">
-        <div className="royal-card glass-effect max-w-md mx-auto animate-gradient border border-white/10">
-          <h2 className="text-2xl font-bold mb-4 text-destructive">Error</h2>
-          <p className="text-muted-foreground mb-6">{error}</p>
-          <Link href="/" className="royal-button">Volver al inicio</Link>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-6">
@@ -125,7 +78,7 @@ export function PlayerProfile({ tag }: PlayerProfileProps) {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <StatItem icon={Trophy} value={player?.trophies?.toLocaleString()} label="Trofeos" color="text-primary" />
-          <StatItem icon={Star} value={player?.level} label="Nivel" color="text-accent" />
+          <StatItem icon={Star} value={player?.expLevel} label="Nivel" color="text-accent" />
           <StatItem icon={Users} value={player?.clan?.name ? 'Sí' : 'No'} label="En Clan" color="text-blue-400" />
           <StatItem value={player?.wins || 0} label="Victorias" color="text-green-400" />
         </div>

@@ -27,3 +27,4 @@ yarn-error.log*
 # Optional: Mac Trash
 .Trashes
 
+.env.local

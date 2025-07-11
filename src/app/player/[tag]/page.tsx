@@ -1,27 +1,24 @@
-
-import { PlayerProfile } from '@/components/player-profile';
+// src/app/player/[tag]/page.tsx
 import { notFound } from 'next/navigation';
+import { getPlayerFromLocalOrAPI } from '@/lib/player-cache';
+import PlayerProfile from '@/components/player-profile';
 
-interface PlayerPageProps {
-  params: Promise<{
-    tag: string;
-  }>;
-}
+export default async function PlayerPage({ params }: { params: { tag: string } }) {
+  const decodedTag = decodeURIComponent(params.tag).replace(/^#/, '');
 
-export default async function PlayerPage({ params }: PlayerPageProps) {
-  const { tag } = await params;
-  
-  // Decode the tag (remove URL encoding)
-  const decodedTag = decodeURIComponent(tag);
-  
-  // Validate tag format (basic validation)
   if (!decodedTag || decodedTag.length < 3) {
     notFound();
   }
-  
+
+  const player = await getPlayerFromLocalOrAPI(decodedTag);
+
+  if (!player) {
+    notFound();
+  }
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
-      <PlayerProfile tag={decodedTag} />
+      <PlayerProfile player={player} tag={decodedTag} />
     </div>
   );
 }
