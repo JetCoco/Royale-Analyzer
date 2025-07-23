@@ -11,8 +11,8 @@ export function Navbar() {
 
   const navItems = [
     { href: '/', label: 'Inicio', icon: Search },
-    { href: '/favorites', label: 'Favoritos', icon: Heart },
-    { href: '/premium', label: 'Premium', icon: Star },
+    { href: '/favorites', label: 'Favoritos', icon: Heart }
+    //{ href: '/premium', label: 'Premium', icon: Star },
   ];
 
   return (

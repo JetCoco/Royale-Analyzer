@@ -1,15 +1,16 @@
+// src/components/player-profile.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Trophy, Star, Users, Crown, Heart, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
-import { PlayerTabs } from './player-tabs';
+import {PlayerTabs}  from './player-tabs';
 import type { ClashPlayer } from '@/types/clash';
 
 interface PlayerProfileProps {
   tag: string;
-  player: ClashPlayer;
+  player: ClashPlayer | null;
 }
 
 export default function PlayerProfile({ tag, player }: PlayerProfileProps) {
@@ -40,6 +41,14 @@ export default function PlayerProfile({ tag, player }: PlayerProfileProps) {
     }
   };
 
+  if (!player) {
+    return (
+      <div className="text-center text-red-500 mt-10">
+        No se pudo cargar la información del jugador.
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <Link href="/" className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
@@ -59,7 +68,7 @@ export default function PlayerProfile({ tag, player }: PlayerProfileProps) {
               <Crown size={32} className="text-accent" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold">{player?.name}</h1>
+              <h1 className="text-3xl font-bold">{player.name}</h1>
               <p className="text-muted-foreground">#{tag}</p>
             </div>
           </div>
@@ -67,8 +76,8 @@ export default function PlayerProfile({ tag, player }: PlayerProfileProps) {
           <button
             onClick={toggleFavorite}
             className={`p-3 rounded-full transition-all duration-200 ${
-              isFavorite 
-                ? 'bg-red-500 hover:bg-red-600 text-white' 
+              isFavorite
+                ? 'bg-red-500 hover:bg-red-600 text-white'
                 : 'bg-secondary hover:bg-secondary/80 text-muted-foreground hover:text-foreground'
             }`}
           >
@@ -77,10 +86,10 @@ export default function PlayerProfile({ tag, player }: PlayerProfileProps) {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <StatItem icon={Trophy} value={player?.trophies?.toLocaleString()} label="Trofeos" color="text-primary" />
-          <StatItem icon={Star} value={player?.expLevel} label="Nivel" color="text-accent" />
-          <StatItem icon={Users} value={player?.clan?.name ? 'Sí' : 'No'} label="En Clan" color="text-blue-400" />
-          <StatItem value={player?.wins || 0} label="Victorias" color="text-green-400" />
+          <StatItem icon={Trophy} value={player.trophies?.toLocaleString()} label="Trofeos" color="text-primary" />
+          <StatItem icon={Star} value={player.expLevel} label="Nivel" color="text-accent" />
+          <StatItem icon={Users} value={player.clan?.name ? 'Sí' : 'No'} label="En Clan" color="text-blue-400" />
+          <StatItem value={player.wins || 0} label="Victorias" color="text-green-400" />
         </div>
       </motion.div>
 
@@ -89,7 +98,7 @@ export default function PlayerProfile({ tag, player }: PlayerProfileProps) {
   );
 }
 
-function StatItem({ icon: Icon, value, label, color }: { icon?: any, value: any, label: string, color: string }) {
+function StatItem({ icon: Icon, value, label, color }: { icon?: any; value: any; label: string; color: string }) {
   return (
     <div className="text-center">
       <div className={`flex items-center justify-center gap-1 text-2xl font-bold ${color}`}>

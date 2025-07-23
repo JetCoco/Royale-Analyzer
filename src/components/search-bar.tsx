@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -16,13 +15,10 @@ export function SearchBar() {
     if (!tag.trim()) return;
 
     setIsLoading(true);
-    
-    // Clean the tag (remove # if present and convert to uppercase)
+
     const cleanTag = tag.replace('#', '').toUpperCase();
-    
-    // Navigate to player page
-    router.push(`/player/${encodeURIComponent(cleanTag)}`);
-    
+    router.push(`/player?tag=${encodeURIComponent(cleanTag)}`);
+
     setIsLoading(false);
   };
 
@@ -37,16 +33,16 @@ export function SearchBar() {
         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
           <Hash className="text-muted-foreground" size={20} />
         </div>
-        
+
         <input
           type="text"
           value={tag}
           onChange={(e) => setTag(e.target.value)}
           placeholder="Ingresa tu tag de jugador (ej: #2PP)"
-          className="royal-input w-full pl-12 pr-32 py-4 text-lg"
+          className="royal-input w-full pl-14 pr-36 py-4 text-lg"
           disabled={isLoading}
         />
-        
+
         <button
           type="submit"
           disabled={!tag.trim() || isLoading}
@@ -60,7 +56,7 @@ export function SearchBar() {
           <span className="hidden sm:inline">Buscar</span>
         </button>
       </div>
-      
+
       <p className="text-sm text-muted-foreground mt-2 text-center">
         Ejemplo: #2PP, #9CQ0GL9QY, #ABCDEFG
       </p>

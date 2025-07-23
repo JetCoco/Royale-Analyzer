@@ -64,18 +64,35 @@ function ProfileTab({ player }: { player: any }) {
             Estadísticas de Batalla
           </h3>
           <div className="grid grid-cols-2 gap-4">
-            <StatBox value={player?.wins || 0} label="Victorias" color="text-green-400" />
-            <StatBox value={player?.losses || 0} label="Derrotas" color="text-red-400" />
-            <StatBox value={player?.draws || 0} label="Empates" color="text-blue-400" />
-            <StatBox
-              value={
-                player?.wins && player?.losses
-                  ? `${((player.wins / (player.wins + player.losses)) * 100).toFixed(1)}%`
-                  : '0%'
-              }
-              label="Ratio Victoria"
-              color="text-accent"
-            />
+          <StatBox
+            value={player?.wins || 0}
+            label="Victorias"
+            color="text-green-400"
+            icon={<Trophy className="text-green-400" size={24} />}
+          />
+          <StatBox
+            value={player?.losses || 0}
+            label="Derrotas"
+            color="text-red-400"
+            icon={<Shield className="text-red-400" size={24} />}
+          />
+          <StatBox
+            value={player?.draws || 0}
+            label="Empates"
+            color="text-blue-400"
+            icon={<BarChart3 className="text-blue-400" size={24} />}
+          />
+          <StatBox
+            value={
+              player?.wins && player?.losses
+                ? `${((player.wins / (player.wins + player.losses)) * 100).toFixed(1)}%`
+                : '0%'
+            }
+            label="Ratio Victoria"
+            color="text-accent"
+            icon={<Target className="text-accent" size={24} />}
+          />
+
           </div>
         </div>
 
@@ -87,8 +104,15 @@ function ProfileTab({ player }: { player: any }) {
           <div className="grid grid-cols-4 gap-4">
             {player?.currentDeck?.slice(0, 8).map((card: any, index: number) => (
               <div key={index} className="text-center p-3 bg-secondary/30 rounded-lg">
-                <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mx-auto mb-2">
-                  <Shield size={20} className="text-primary" />
+                <div className="w-12 h-12 rounded-lg overflow-hidden mx-auto mb-2">
+                  <img
+                    src={`/cards/${card.name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '')}.png`}
+                    alt={card.name}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = '/cards/default.png';
+                    }}
+                  />
                 </div>
                 <div className="text-sm font-medium truncate">{card.name}</div>
                 <div className="text-xs text-muted-foreground">Nivel {card.level}</div>
@@ -196,14 +220,26 @@ function GeniusTab({ player }: { player: any }) {
 
 // COMPONENTES AUXILIARES
 
-function StatBox({ value, label, color }: { value: any; label: string; color: string }) {
+function StatBox({
+  value,
+  label,
+  color,
+  icon,
+}: {
+  value: any;
+  label: string;
+  color: string;
+  icon?: React.ReactNode;
+}) {
   return (
-    <div className="text-center p-4 bg-secondary/30 rounded-lg">
+    <div className="text-center p-4 bg-secondary/30 rounded-lg flex flex-col items-center">
+      {icon && <div className="mb-2">{icon}</div>}
       <div className={`text-2xl font-bold ${color}`}>{value}</div>
       <div className="text-sm text-muted-foreground">{label}</div>
     </div>
   );
 }
+
 
 function InfoItem({ label, value }: { label: string; value: string }) {
   return (

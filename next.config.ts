@@ -1,7 +1,4 @@
-const nextConfig = {
-  experimental: {
-    
-  },
+export default {
+  output: 'export',
+  trailingSlash: true,
 };
-
-export default nextConfig;
