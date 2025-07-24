@@ -20,9 +20,9 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          role-session-name: github-actions
-          aws-region: us-east-1
+            role-to-assume: arn:aws:iam::487030776862:role/GitHubActionsRoyaleAnalyzerS3Role
+            role-session-name: github-actions
+            aws-region: us-east-1
 
       - name: Install dependencies
         run: npm install
