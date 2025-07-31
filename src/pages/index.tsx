@@ -6,7 +6,7 @@ import { Features } from '@/components/features';
 import { Crown } from 'lucide-react';
 import { SearchBar } from '@/components/search-bar';
 
-//Hola estoy en rama a
+//Hola estoy en rama A y B
 export default function Home() {
   const [tag, setTag] = useState('');
   const router = useRouter();
