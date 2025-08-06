@@ -7,6 +7,7 @@ export async function getPlayerData(tag: string): Promise<ClashPlayer | null> {
 
     //const apiBase = process.env.NEXT_PUBLIC_API_URL; // <- API Gateway
     const apiBase = 'https://api.royale-analyzer.com';
+    console.log('API base:', apiBase);
 
     const response = await fetch(`${apiBase}/player/${cleanTag}`, {
       method: 'GET',
