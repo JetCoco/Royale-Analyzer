@@ -1,3 +1,4 @@
+//src/lib/clash-api.ts
 export async function fetchPlayerByTag(tag: string) {
     const token = process.env.NEXT_PUBLIC_CLASH_API_TOKEN;
   
