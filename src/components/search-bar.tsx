@@ -17,7 +17,7 @@ export function SearchBar() {
     setIsLoading(true);
 
     const cleanTag = tag.replace('#', '').toUpperCase();
-    router.push(`/player?tag=${encodeURIComponent(cleanTag)}`);
+    router.push(`/player/${encodeURIComponent(cleanTag)}`);
 
     setIsLoading(false);
   };
