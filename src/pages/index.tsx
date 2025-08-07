@@ -5,6 +5,8 @@ import { motion } from 'framer-motion';
 import { Features } from '@/components/features';
 import { Crown } from 'lucide-react';
 import { SearchBar } from '@/components/search-bar';
+import { Stats } from '@/components/stats';
+
 
 export default function Home() {
   const [tag, setTag] = useState('');
@@ -22,6 +24,7 @@ export default function Home() {
         Royale Analyzer
       </motion.h1>
       <SearchBar />
+      <Stats />
       <Features />
     </main>
   );
