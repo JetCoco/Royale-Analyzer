@@ -1,36 +1,94 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# 👑 Royale Analyzer
 
-First, run the development server:
+Royale Analyzer es una aplicación web que permite consultar información detallada sobre jugadores de **Clash Royale**, incluyendo nombre, trofeos, nivel, clan, cartas y más. El frontend es estático, moderno y rápido, y se conecta a un backend serverless en AWS que consume la API oficial de Clash Royale.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Demo
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+🔗 [https://www.royale-analyzer.com](https://www.royale-analyzer.com)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🧰 Tecnologías utilizadas
 
-To learn more about Next.js, take a look at the following resources:
+### Frontend
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Next.js (Static Export)](https://nextjs.org/docs/pages/building-your-application/deploying/static-exports)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Framer Motion](https://www.framer.com/motion/)
+- [Lucide Icons](https://lucide.dev/)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Backend
 
-## Deploy on Vercel
+- **AWS Lambda** (función para consultar y cachear datos)
+- **Amazon API Gateway** (exposición pública del endpoint `/player/{tag}`)
+- **Clash Royale API** (fuente oficial de datos)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Infraestructura en AWS
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Amazon S3 (hosting del frontend estático)
+- Amazon CloudFront (CDN global)
+- Amazon Route 53 (dominio personalizado)
+- Amazon Certificate Manager (SSL para HTTPS)
+- **VPC + Subred Privada + NAT Gateway** (acceso seguro a internet desde Lambda)
+- IAM Roles & Policies (mínimos necesarios)
+- GitHub Actions (CI/CD)
+
+
+## Arquitectura del Proyecto
+
+Este proyecto utiliza una arquitectura serverless basada en servicios de AWS.
+
+![Arquitectura AWS](data/architecture-diagram.png)
+
+### Instalación local
+Clona el repositorio:
+
+git clone https://github.com/JetCoco/Royale-Analyzer.git
+cd Royale-Analyzer
+
+### Instala dependencias:
+
+npm install
+
+### Exporta el sitio como estático:
+
+npm run build && npm run export
+
+### Previsualiza localmente:
+
+npx serve out
+
+### Despliegue (automático)
+Cada vez que haces push a la rama main:
+
+GitHub Actions ejecuta npm run build && npm run export
+
+Sincroniza la carpeta /out al bucket S3
+
+Aplica --cache-control "no-cache" para evitar problemas de versiones antiguas
+
+Invalida el caché de CloudFront (/*) para reflejar cambios inmediatos
+
+🔐 Seguridad
+CORS configurado para aceptar únicamente desde https://www.royale-analyzer.com
+
+Lambda corre en una VPC privada con salida solo mediante NAT Gateway
+
+IAM Roles con permisos mínimos
+
+SSL gestionado con AWS Certificate Manager
+
+✅ Pendiente / Futuro
+🎯 Favoritos por usuario
+
+📊 Dashboard de estadísticas agregadas
+
+🔒 Login con Amazon Cognito
+
+💬 Compartir perfiles
+
+🔎 Indexado por buscadores
