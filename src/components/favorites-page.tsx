@@ -162,7 +162,7 @@ export function FavoritesPage() {
               </div>
 
               <Link
-                href={`/player?tag=${encodeURIComponent(favorite.tag)}`}
+                href={`/player/${encodeURIComponent(favorite.tag)}`}
                 className="w-full bg-primary/20 hover:bg-primary/30 text-primary px-4 py-2 rounded-lg transition-colors flex items-center justify-center gap-2"
               >
                 <ExternalLink size={16} />

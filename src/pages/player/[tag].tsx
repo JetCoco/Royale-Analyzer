@@ -1,4 +1,4 @@
-// src/pages/player.tsx
+//src/pages/player/[tag].tsx
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import PlayerProfile from '@/components/player-profile';
