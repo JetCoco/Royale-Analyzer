@@ -14,7 +14,7 @@ export default function Home() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (tag.trim()) {
-      router.push(`/player?tag=${encodeURIComponent(tag.trim())}`);
+      router.push(`/player/${encodeURIComponent(tag.trim())}`);
     }
   };
 
