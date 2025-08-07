@@ -24,8 +24,8 @@ export default function Home() {
         Royale Analyzer
       </motion.h1>
       <SearchBar />
-      <Stats />
       <Features />
+      <Stats />
     </main>
   );
 }
